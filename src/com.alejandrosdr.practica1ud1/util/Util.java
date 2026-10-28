@@ -1,4 +1,4 @@
-package com.alejandrosdr.vehiculosmvc.util;
+package com.alejandrosdr.practica1ud1.util;
 
 public class Util
 {

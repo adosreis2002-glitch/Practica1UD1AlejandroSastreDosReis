@@ -1,8 +1,10 @@
-package modelo;
+package com.alejandrosdr.practica1ud1.base;
 
 import java.time.LocalDate;
 
-public class Bebida {
+     // El abstract hace que no pueda haber un = new Bebida
+    // En cambio si un nuevo new R, new W, new V
+public abstract class Bebida {
 
     private String nombre; // Nombre del producto
     private String marca; // Marca del procducto
