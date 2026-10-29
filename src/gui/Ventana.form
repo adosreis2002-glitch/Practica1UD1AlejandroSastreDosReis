@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Ventana">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="gui.Ventana">
   <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="FormLayout">
     <rowspec value="center:39px:noGrow"/>
     <rowspec value="top:0dlu:noGrow"/>
@@ -183,7 +183,14 @@
         </constraints>
         <properties/>
         <border type="none"/>
-        <children/>
+        <children>
+          <component id="bb730" class="com.github.lgooddatepicker.components.DatePicker">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+          </component>
+        </children>
       </grid>
       <component id="96456" class="javax.swing.JButton" binding="btnExportar">
         <constraints>
