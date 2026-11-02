@@ -1,9 +1,14 @@
 package gui;
 
+import com.alejandrosdr.practica1ud1.base.Bebida;
+import com.alejandrosdr.practica1ud1.util.Util;
+
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+
 
 // Lo que une la vista con el modelo
 public class BebidasControlador implements ActionListener, WindowListener {
@@ -26,6 +31,10 @@ public class BebidasControlador implements ActionListener, WindowListener {
 
     private void addActionListener(ActionListener listener) {
         vista.btnNuevo.addActionListener(listener);
+
+        vista.btnExportar.addActionListener(listener);
+        vista.btnImportar.addActionListener(listener);
+        vista.btnCerrar.addActionListener(listener);
 
         // Controlador pueda detectar cambios en "bebida"
         vista.rbWhisky.addActionListener(listener);
@@ -62,7 +71,7 @@ public class BebidasControlador implements ActionListener, WindowListener {
     public void refrescar() {
         vista.txtAreaListado.setText("");
 
-        for (Bebida unaBebida : modelo.obtenerBebidas()) {
+        for (Bebida unaBebida : modelo.getListaBebidas()) {
             vista.txtAreaListado.append(unaBebida.toString() + "\n");
         }
     }
@@ -74,11 +83,11 @@ public class BebidasControlador implements ActionListener, WindowListener {
         switch (actionCommand) {
             case "Nuevo":
                 if (hayCamposVacios()) {
-                    System.out.println("ERROR: No puedes dejar campos vacios.");
+                    JOptionPane.showMessageDialog(vista.frame, "No puedes dejar campos vacíos.", "Atención", JOptionPane.WARNING_MESSAGE);
                     break;
                 }
-                if (modelo.existeBebida(vista.txtNombre.getText())) {
-                    System.out.println("ERROR: Ya existe una bebida con este nombre.");
+                if (modelo.existeBebida(vista.txtNombre.getText(), vista.txtMarca.getText())) {
+                    JOptionPane.showMessageDialog(vista.frame, "Ya existe una bebida con este nombre y marca.", "Bebida duplicada", JOptionPane.ERROR_MESSAGE);
                     break;
                 }
             // Cogemos datos para convertirlos
@@ -90,17 +99,37 @@ public class BebidasControlador implements ActionListener, WindowListener {
                 java.time.LocalDate fecha = vista.datePicker.getDate();
 
                 if (vista.rbWhisky.isSelected()) {
-                    modelo.altaWhisky(nombre, precio, marca, stock, fecha, graduacion);
+                    modelo.altaWhisky(nombre, marca, precio, stock, graduacion, fecha);
                 } else if (vista.rbRon.isSelected()) {
-                    modelo.altaRon(nombre, precio, marca, stock, fecha, graduacion);
+                    modelo.altaRon(nombre, marca, precio, stock, graduacion, fecha);
                 } else if (vista.rbGinebra.isSelected()) {
-                    modelo.altaGinebra(nombre, precio, marca, stock, fecha, graduacion);
+                    modelo.altaGinebra(nombre, marca, precio, stock, graduacion, fecha);
                 } else if (vista.rbVodka.isSelected()) {
-                    modelo.altaVodka(nombre, precio, marca, stock, fecha, graduacion);
+                    modelo.altaVodka(nombre, marca, precio, stock, graduacion, fecha);
                 }
                 // Limpiamos y refrescamos IMPORTANTE
                 limpiarCampos();
                 refrescar();
+                break;
+            case "Exportar":
+                if (modelo.exportarJSON("inventario.json")) {
+                    JOptionPane.showMessageDialog(vista.frame, "Inventario exportado a JSON correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(vista.frame, "Error al crear el archivo JSON.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                break;
+
+            case "Importar":
+                if (modelo.importarJSON("inventario.json")) {
+                    refrescar(); // Actualiza el listado visual inferior
+                    JOptionPane.showMessageDialog(vista.frame, "Inventario importado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(vista.frame, "Error al leer el archivo JSON.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                break;
+
+            case "Cerrar":
+                Util.confirmacionSalida(vista.frame);
                 break;
         }
 
@@ -110,6 +139,8 @@ public class BebidasControlador implements ActionListener, WindowListener {
     @Override public void windowClosing(WindowEvent e) {
 
     }
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////
     @Override public void windowClosed(WindowEvent e) {}
     @Override public void windowIconified(WindowEvent e) {}

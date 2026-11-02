@@ -1,0 +1,42 @@
+[
+	{
+		"tipo": "Ginebra",
+		"nombre": "London Dry",
+		"marca": "Beefeater",
+		"precio": 15.20,
+		"stock": 20,
+		"graduacion": 40.00
+	},
+	{
+		"tipo": "Ron",
+		"nombre": "Añejo Especial",
+		"marca": "Brugal",
+		"precio": 18.75,
+		"stock": 15,
+		"graduacion": 38.00
+	},
+	{
+		"tipo": "Ron",
+		"nombre": "Añejo 3 Años",
+		"marca": "Bacardi",
+		"precio": 16.50,
+		"stock": 25,
+		"graduacion": 37.50
+	},
+	{
+		"tipo": "Whisky",
+		"nombre": "Black Label",
+		"marca": "Johnnie Walker",
+		"precio": 25.50,
+		"stock": 10,
+		"graduacion": 40.00
+	},
+	{
+		"tipo": "Vodka",
+		"nombre": "Red Label",
+		"marca": "Smirnoff",
+		"precio": 12.50,
+		"stock": 30,
+		"graduacion": 37.50
+	}
+]

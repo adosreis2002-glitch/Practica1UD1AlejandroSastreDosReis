@@ -1,20 +1,20 @@
 package com.alejandrosdr.practica1ud1.base;
 
 import java.time.LocalDate;
+import java.util.Objects; // Necesario para el hashCode
 
-     // El abstract hace que no pueda haber un = new Bebida
-    // En cambio si un nuevo new R, new W, new V
+// El abstract hace que no pueda haber un = new Bebida
+// En cambio si un nuevo new R, new W, new V
 public abstract class Bebida {
 
-    private String nombre; // Nombre del producto
-    private String marca; // Marca del procducto
-    private double precio; // Precio en euros
+    private String nombre;
+    private String marca;
+    private double precio;
     private int stock; // Unidades disponibles
-    private double graduacionAlcoholica; // Cuanta graduacion tendra
+    private double graduacionAlcoholica;
     private LocalDate fechaEntradaInv; // Fecha en la que ha entrado al inventario
 
-     // El constructor nos ayudara a la hora de crear una bebida (W, R, V, G)
-    // Con esos mismos datos inciales
+    // (W, R, V, G)
     public Bebida(String nombre, String marca, double precio, int stock,
                   double graduacionAlcoholica, LocalDate fechaEntradaInv) {
         this.nombre = nombre;
@@ -30,7 +30,7 @@ public abstract class Bebida {
     }
 
     public void setNombre(String nombre) { // Setter para TODOS los campos
-        this.nombre = nombre;             //  Permite modificar los valores (no todos seran iguales)
+        this.nombre = nombre;             // Permite modificar los valores (no todos seran iguales)
     }
 
     public String getMarca() {
@@ -71,5 +71,27 @@ public abstract class Bebida {
 
     public void setFechaEntradaInv(LocalDate fechaEntradaInv) {
         this.fechaEntradaInv = fechaEntradaInv;
+    }
+
+    // --- MÉTODOS AÑADIDOS PARA LA VISTA Y EL HASHSET ---
+
+    @Override
+    public String toString() {
+        return "Bebida: " + nombre + " | Marca: " + marca +
+                " | Precio: " + precio + "€ | Stock: " + stock +
+                " | Graduación: " + graduacionAlcoholica + "% | Fecha: " + fechaEntradaInv;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Bebida bebida = (Bebida) o;
+        return nombre.equalsIgnoreCase(bebida.nombre);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nombre.toLowerCase());
     }
 }
