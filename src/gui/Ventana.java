@@ -18,7 +18,7 @@ public class Ventana {
     public JTextField txtStock;
     public JTextField txtGraduacion;
 
-    // Aquí están las dos variables del calendario tal y como las tienes en el .form
+    // Aquí están las dos variables del calendario .form
     public JPanel panelFecha;
     public DatePicker datePicker;
 
@@ -38,8 +38,8 @@ public class Ventana {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                ImageIcon imagen = new ImageIcon("fondo.png");
-                g.drawImage(imagen.getImage(), 0, 0, getWidth(), getHeight(), this);
+                ImageIcon fondo = new ImageIcon(getClass().getResource("/fondo.png"));
+                g.drawImage(fondo.getImage(), 0, 0, getWidth(), getHeight(), this);
             }
         };
         panelFondo.setLayout(new BorderLayout());
@@ -51,7 +51,7 @@ public class Ventana {
         panelFondo.add(panel1, BorderLayout.CENTER);
         frame.setContentPane(panelFondo);
 
-        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

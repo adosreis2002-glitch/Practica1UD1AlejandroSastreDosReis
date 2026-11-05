@@ -44,7 +44,6 @@ public class BebidasControlador implements ActionListener, WindowListener {
     }
 
     // Comprobaciones
-    // Comprobaciones
     private boolean hayCamposVacios() {
         if (vista.txtNombre.getText().isEmpty() ||
                 vista.txtMarca.getText().isEmpty() ||
@@ -56,7 +55,7 @@ public class BebidasControlador implements ActionListener, WindowListener {
         }
         return false;
     }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Limpiamos los campos
     private void limpiarCampos() {
         vista.txtNombre.setText("");
@@ -83,11 +82,13 @@ public class BebidasControlador implements ActionListener, WindowListener {
         switch (actionCommand) {
             case "Nuevo":
                 if (hayCamposVacios()) {
-                    JOptionPane.showMessageDialog(vista.frame, "No puedes dejar campos vacíos.", "Atención", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(vista.frame, "No puedes dejar campos vacíos.",
+                            "Atención", JOptionPane.WARNING_MESSAGE);
                     break;
                 }
                 if (modelo.existeBebida(vista.txtNombre.getText(), vista.txtMarca.getText())) {
-                    JOptionPane.showMessageDialog(vista.frame, "Ya existe una bebida con este nombre y marca.", "Bebida duplicada", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(vista.frame, "Ya existe una bebida con este nombre y marca.",
+                            "Bebida duplicada", JOptionPane.ERROR_MESSAGE);
                     break;
                 }
             // Cogemos datos para convertirlos
@@ -112,33 +113,35 @@ public class BebidasControlador implements ActionListener, WindowListener {
                 refrescar();
                 break;
             case "Exportar":
-                if (modelo.exportarJSON("inventario.json")) {
-                    JOptionPane.showMessageDialog(vista.frame, "Inventario exportado a JSON correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                // Exportar a XML
+                if (modelo.exportarXML("inventario.xml")) {
+                    JOptionPane.showMessageDialog(vista.frame, "Inventario exportado a XML correctamente.",
+                            "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 } else {
-                    JOptionPane.showMessageDialog(vista.frame, "Error al crear el archivo JSON.", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(vista.frame, "Error al crear el archivo XML.",
+                            "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 break;
 
             case "Importar":
-                if (modelo.importarJSON("inventario.json")) {
+                // Importar desde XML
+                if (modelo.importarXML("inventario.xml")) {
                     refrescar(); // Actualiza el listado visual inferior
-                    JOptionPane.showMessageDialog(vista.frame, "Inventario importado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(vista.frame, "Inventario importado correctamente.",
+                            "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 } else {
-                    JOptionPane.showMessageDialog(vista.frame, "Error al leer el archivo JSON.", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(vista.frame, "Error al leer el archivo XML.",
+                            "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 break;
-
             case "Cerrar":
                 Util.confirmacionSalida(vista.frame);
                 break;
         }
-
     }
 
     @Override public void windowOpened(WindowEvent e) {}
-    @Override public void windowClosing(WindowEvent e) {
-
-    }
+    @Override public void windowClosing(WindowEvent e) {}
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////

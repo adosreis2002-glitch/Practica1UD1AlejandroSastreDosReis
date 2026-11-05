@@ -1,162 +1,18 @@
 [
 	{
-		"tipo": "Ron",
-		"nombre": "Añejo 7 Años",
-		"marca": "Havana Club",
-		"precio": 23.50,
-		"stock": 14,
-		"graduacion": 40.00
-	},
-	{
 		"tipo": "Ginebra",
-		"nombre": "London Dry",
-		"marca": "Beefeater",
-		"precio": 15.20,
-		"stock": 20,
-		"graduacion": 40.00
-	},
-	{
-		"tipo": "Whisky",
-		"nombre": "Jameson Original",
-		"marca": "Jameson",
-		"precio": 19.80,
-		"stock": 22,
-		"graduacion": 40.00
-	},
-	{
-		"tipo": "Vodka",
-		"nombre": "Original",
-		"marca": "Moskovskaya",
-		"precio": 14.50,
-		"stock": 13,
-		"graduacion": 38.00
-	},
-	{
-		"tipo": "Vodka",
-		"nombre": "Pure",
-		"marca": "Belvedere",
-		"precio": 36.50,
-		"stock": 5,
-		"graduacion": 40.00
-	},
-	{
-		"tipo": "Ron",
-		"nombre": "Añejo Especial",
-		"marca": "Brugal",
-		"precio": 18.75,
-		"stock": 15,
-		"graduacion": 38.00
-	},
-	{
-		"tipo": "Ron",
-		"nombre": "Añejo 3 Años",
-		"marca": "Bacardi",
-		"precio": 16.50,
-		"stock": 25,
-		"graduacion": 37.50
-	},
-	{
-		"tipo": "Vodka",
-		"nombre": "Premium Vodka",
-		"marca": "Grey Goose",
-		"precio": 39.90,
-		"stock": 7,
-		"graduacion": 40.00
-	},
-	{
-		"tipo": "Ron",
-		"nombre": "Reserva Exclusiva",
-		"marca": "Diplomatico",
-		"precio": 38.90,
+		"nombre": "gffd",
+		"marca": "gfg",
+		"precio": 5.00,
 		"stock": 6,
-		"graduacion": 40.00
+		"graduacion": 7.00
 	},
 	{
 		"tipo": "Whisky",
-		"nombre": "Black Label",
-		"marca": "Johnnie Walker",
-		"precio": 25.50,
-		"stock": 10,
-		"graduacion": 40.00
-	},
-	{
-		"tipo": "Whisky",
-		"nombre": "Chivas Regal 12",
-		"marca": "Chivas Regal",
-		"precio": 29.95,
-		"stock": 12,
-		"graduacion": 40.00
-	},
-	{
-		"tipo": "Ron",
-		"nombre": "Carta Blanca",
-		"marca": "Havana Club",
-		"precio": 14.90,
-		"stock": 24,
-		"graduacion": 37.50
-	},
-	{
-		"tipo": "Vodka",
-		"nombre": "Absolut Original",
-		"marca": "Absolut",
-		"precio": 17.90,
-		"stock": 21,
-		"graduacion": 40.00
-	},
-	{
-		"tipo": "Whisky",
-		"nombre": "Double Black",
-		"marca": "Johnnie Walker",
-		"precio": 34.50,
-		"stock": 8,
-		"graduacion": 40.00
-	},
-	{
-		"tipo": "Ginebra",
-		"nombre": "Tanqueray London Dry",
-		"marca": "Tanqueray",
-		"precio": 21.90,
-		"stock": 11,
-		"graduacion": 43.10
-	},
-	{
-		"tipo": "Ginebra",
-		"nombre": "Nordés",
-		"marca": "Nordés",
-		"precio": 25.90,
-		"stock": 9,
-		"graduacion": 40.00
-	},
-	{
-		"tipo": "Ginebra",
-		"nombre": "Bombay Sapphire",
-		"marca": "Bombay Sapphire",
-		"precio": 20.50,
-		"stock": 16,
-		"graduacion": 40.00
-	},
-	{
-		"tipo": "Ginebra",
-		"nombre": "Pink Gin",
-		"marca": "Gordon's",
-		"precio": 13.50,
-		"stock": 19,
-		"graduacion": 37.50
-	},
-	{
-		"tipo": "Whisky",
-		"nombre": "Jack Daniel's Old No. 7",
-		"marca": "Jack Daniel's",
-		"precio": 22.90,
-		"stock": 18,
-		"graduacion": 40.00
-	},
-	{
-		"tipo": "Vodka",
-		"nombre": "Red Label",
-		"marca": "Smirnoff",
-		"precio": 12.50,
-		"stock": 30,
-		"graduacion": 37.50
+		"nombre": "zxcz",
+		"marca": "fsdfs",
+		"precio": 5.00,
+		"stock": 3,
+		"graduacion": 4.00
 	}
 ]

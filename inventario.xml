@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<inventario>
+    <bebida tipo="Whisky">
+        <nombre>dfgd</nombre>
+        <marca>dsfs</marca>
+        <precio>33.0</precio>
+        <stock>4</stock>
+        <graduacion>2.0</graduacion>
+        <fecha>2026-11-06</fecha>
+    </bebida>
+    <bebida tipo="Ron">
+        <nombre>sfsdfsdf</nombre>
+        <marca>dsfcvb</marca>
+        <precio>3432.0</precio>
+        <stock>4</stock>
+        <graduacion>65.0</graduacion>
+        <fecha>2026-11-01</fecha>
+    </bebida>
+    <bebida tipo="Whisky">
+        <nombre>sadsadsa</nombre>
+        <marca>sadd</marca>
+        <precio>22.0</precio>
+        <stock>1</stock>
+        <graduacion>23.0</graduacion>
+        <fecha>2026-11-13</fecha>
+    </bebida>
+</inventario>

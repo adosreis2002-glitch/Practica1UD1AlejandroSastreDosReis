@@ -6,7 +6,17 @@ import com.alejandrosdr.practica1ud1.base.Ron;
 import com.alejandrosdr.practica1ud1.base.Vodka;
 import com.alejandrosdr.practica1ud1.base.Whisky;
 
-import java.io.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.File;
 import java.time.LocalDate;
 import java.util.HashSet;
 
@@ -17,7 +27,7 @@ public class BebidasModelo {
 
     public BebidasModelo() {
         listaBebidas = new HashSet<Bebida>();
-        importarJSON("inventario.json"); // Cargamos nada mas iniciar los datos guardados la ultima vez
+        importarXML("inventario.xml"); // Cargamos nada mas iniciar los datos guardados la ultima vez
     }
 
     // Back controlador
@@ -55,42 +65,52 @@ public class BebidasModelo {
         listaBebidas.add(nuevoVodka);
     }
 
-    public boolean exportarJSON(String rutaArchivo) {
-        try {
-            PrintWriter escritor = new PrintWriter(new FileWriter(rutaArchivo));
-            escritor.println("[");
+    // Crea <etiqueta>texto</etiqueta>
+    private Element crearNodo(Document doc, String etiqueta, String texto) {
+        Element nodo = doc.createElement(etiqueta);
+        nodo.setTextContent(texto);
+        return nodo;
+    }
 
-            boolean primero = true; // Controla la coma separadora
+    // Lee texto de etiqueta
+    private String leerTexto(Element padre, String etiqueta) {
+        return padre.getElementsByTagName(etiqueta).item(0).getTextContent().trim();
+    }
+
+    public boolean exportarXML(String rutaArchivo) {
+        try {
+            // Documento XML vacío
+            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+
+            // Nodo raíz
+            Element raiz = doc.createElement("inventario");
+            doc.appendChild(raiz);
 
             for (Bebida bebida : listaBebidas) {
-                if (!primero) {
-                    escritor.println(",");
-                }
+                // Un nodo por bebida
+                Element nodo = doc.createElement("bebida");
+                // Tipo como atributo
+                nodo.setAttribute("tipo", bebida.getClass().getSimpleName());
 
-                // String.format
-                String jsonBebida = String.format(java.util.Locale.US,
-                        "\t{\n" +
-                                "\t\t\"tipo\": \"%s\",\n" +
-                                "\t\t\"nombre\": \"%s\",\n" +
-                                "\t\t\"marca\": \"%s\",\n" +
-                                "\t\t\"precio\": %.2f,\n" +
-                                "\t\t\"stock\": %d,\n" +
-                                "\t\t\"graduacion\": %.2f\n" +
-                                "\t}",
-                        bebida.getClass().getSimpleName(),
-                        bebida.getNombre(),
-                        bebida.getMarca(),
-                        bebida.getPrecio(),
-                        bebida.getStock(),
-                        bebida.getGraduacionAlcoholica()
-                );
+                // Campos hijos
+                nodo.appendChild(crearNodo(doc, "nombre", bebida.getNombre()));
+                nodo.appendChild(crearNodo(doc, "marca", bebida.getMarca()));
+                nodo.appendChild(crearNodo(doc, "precio", String.valueOf(bebida.getPrecio())));
+                nodo.appendChild(crearNodo(doc, "stock", String.valueOf(bebida.getStock())));
+                nodo.appendChild(crearNodo(doc, "graduacion", String.valueOf(bebida.getGraduacionAlcoholica())));
+                // Fecha formato ISO
+                String fecha = bebida.getFechaEntradaInv() == null ? "" : bebida.getFechaEntradaInv().toString();
+                nodo.appendChild(crearNodo(doc, "fecha", fecha));
 
-                escritor.print(jsonBebida);
-                primero = false;
+                raiz.appendChild(nodo);
             }
 
-            escritor.println("\n]");
-            escritor.close();
+            // Escribir el fichero
+            Transformer transformador = TransformerFactory.newInstance().newTransformer();
+            transformador.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformador.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+            transformador.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+            transformador.transform(new DOMSource(doc), new StreamResult(new File(rutaArchivo)));
             return true;
         } catch (Exception e) {
             System.out.println("Error al exportar: " + e.getMessage());
@@ -98,62 +118,41 @@ public class BebidasModelo {
         }
     }
 
-    public boolean importarJSON(String rutaArchivo) {
+    public boolean importarXML(String rutaArchivo) {
         try {
-            // Abrimos el lector de texto para leer el archivo linea por linea
-            BufferedReader lector = new BufferedReader(new FileReader(rutaArchivo));
-            String linea;
+            // Parsear el fichero
+            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File(rutaArchivo));
+            doc.getDocumentElement().normalize();
 
-            // Aqui hay unas variables temporales las cuales acumulan los datos de cada bebida mientras se leen
-            String tipo = "", nombre = "", marca = "";
-            double precio = 0.0, graduacion = 0.0;
-            int stock = 0;
+            // Todas las bebidas
+            NodeList nodos = doc.getElementsByTagName("bebida");
 
-            // Bucle que recorre el archivo hasta que no quedan lineas (null)
-            while ((linea = lector.readLine()) != null) {
-                linea = linea.trim(); // Se limpia los espacios en blanco a los lados para evitar errores
+            for (int i = 0; i < nodos.getLength(); i++) {
+                Element nodo = (Element) nodos.item(i);
 
-                // Si la linea contiene el tipo, se extrae y se limpia (comillas/comas)
-                if (linea.contains("\"tipo\":")) {
-                    tipo = linea.split(":")[1].replace("\"", "").replace(",", "").trim();
-                }
-                // Si contiene nombre se extrae
-                else if (linea.contains("\"nombre\":")) {
-                    nombre = linea.split(":")[1].replace("\"", "").replace(",", "").trim();
-                }
-                // Si contiene marca se extrae
-                else if (linea.contains("\"marca\":")) {
-                    marca = linea.split(":")[1].replace("\"", "").replace(",", "").trim();
-                }
-                // Si contiene precio, se convierte de texto double
-                else if (linea.contains("\"precio\":")) {
-                    precio = Double.parseDouble(linea.split(":")[1].replace(",", "").trim());
-                }
-                // Si contiene stock se convierte a int
-                else if (linea.contains("\"stock\":")) {
-                    stock = Integer.parseInt(linea.split(":")[1].replace(",", "").trim());
-                }
-                // Si contiene graduación se convierte a double
-                else if (linea.contains("\"graduacion\":")) {
-                    graduacion = Double.parseDouble(linea.split(":")[1].replace(",", "").trim());
-                }
-                // Al llegar al cierre de la llave de un objeto JSON ya estan todos los datos listos
-                else if (linea.equals("}") || linea.equals("},")) {
-                    LocalDate fechaPorDefecto = LocalDate.now(); // Fecha por defecto al importar
+                // Leer cada campo
+                String tipo = nodo.getAttribute("tipo");
+                String nombre = leerTexto(nodo, "nombre");
+                String marca = leerTexto(nodo, "marca");
+                double precio = Double.parseDouble(leerTexto(nodo, "precio"));
+                int stock = Integer.parseInt(leerTexto(nodo, "stock"));
+                double graduacion = Double.parseDouble(leerTexto(nodo, "graduacion"));
 
-                    // Creamos el objeto correspondiente segun el tipo leido y lo agregamos al HashSet
-                    if (tipo.equalsIgnoreCase("Whisky")) {
-                        listaBebidas.add(new Whisky(nombre, marca, precio, stock, graduacion, fechaPorDefecto));
-                    } else if (tipo.equalsIgnoreCase("Ron")) {
-                        listaBebidas.add(new Ron(nombre, marca, precio, stock, graduacion, fechaPorDefecto));
-                    } else if (tipo.equalsIgnoreCase("Ginebra")) {
-                        listaBebidas.add(new Ginebra(nombre, marca, precio, stock, graduacion, fechaPorDefecto));
-                    } else if (tipo.equalsIgnoreCase("Vodka")) {
-                        listaBebidas.add(new Vodka(nombre, marca, precio, stock, graduacion, fechaPorDefecto));
-                    }
+                // Fecha vacía = hoy
+                String textoFecha = leerTexto(nodo, "fecha");
+                LocalDate fecha = textoFecha.isEmpty() ? LocalDate.now() : LocalDate.parse(textoFecha);
+
+                // Crear según tipo
+                if (tipo.equalsIgnoreCase("Whisky")) {
+                    listaBebidas.add(new Whisky(nombre, marca, precio, stock, graduacion, fecha));
+                } else if (tipo.equalsIgnoreCase("Ron")) {
+                    listaBebidas.add(new Ron(nombre, marca, precio, stock, graduacion, fecha));
+                } else if (tipo.equalsIgnoreCase("Ginebra")) {
+                    listaBebidas.add(new Ginebra(nombre, marca, precio, stock, graduacion, fecha));
+                } else if (tipo.equalsIgnoreCase("Vodka")) {
+                    listaBebidas.add(new Vodka(nombre, marca, precio, stock, graduacion, fecha));
                 }
             }
-            lector.close(); // Cerramos archivo
             return true;
         } catch (Exception e) {
             System.out.println("Error al importar: " + e.getMessage());
