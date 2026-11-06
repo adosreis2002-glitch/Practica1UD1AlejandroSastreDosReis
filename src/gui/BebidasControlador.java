@@ -3,15 +3,16 @@ package gui;
 import com.alejandrosdr.practica1ud1.base.Bebida;
 import com.alejandrosdr.practica1ud1.util.Util;
 
-import javax.swing.*;
+import javax.swing.*; // importa clases de la biblioteca Swing de Java
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 
-// Lo que une la vista con el modelo
-public class BebidasControlador implements ActionListener, WindowListener {
+    // Gestiona las acciones.
+    // Lo que une la vista con el modelo
+    public class BebidasControlador implements ActionListener, WindowListener {
 
     private Ventana vista;
     private BebidasModelo modelo;
@@ -25,6 +26,7 @@ public class BebidasControlador implements ActionListener, WindowListener {
 
     }
 
+    // listerner = cambio
     private void addWindowListener(WindowListener listener) {
         vista.frame.addWindowListener(listener);
     }
@@ -64,24 +66,26 @@ public class BebidasControlador implements ActionListener, WindowListener {
         vista.txtStock.setText("");
         vista.txtGraduacion.setText("");
         vista.datePicker.setText("");
-        vista.txtNombre.requestFocus();
+        vista.txtNombre.requestFocus(); // Pone seleccionado el ultimo campo
     }
 
     public void refrescar() {
         vista.txtAreaListado.setText("");
 
         for (Bebida unaBebida : modelo.getListaBebidas()) {
-            vista.txtAreaListado.append(unaBebida.toString() + "\n");
+            vista.txtAreaListado.append(unaBebida.toString() + "\n"); // Jump
         }
     }
 
     @Override
+    //se ejecuta cuando se realiza una accion en un componente conectado al listener.
     public void actionPerformed(ActionEvent e) {
         String actionCommand = e.getActionCommand();
 
         switch (actionCommand) {
             case "Nuevo":
                 if (hayCamposVacios()) {
+                    // V. Emergentes
                     JOptionPane.showMessageDialog(vista.frame, "No puedes dejar campos vacíos.",
                             "Atención", JOptionPane.WARNING_MESSAGE);
                     break;
@@ -91,7 +95,7 @@ public class BebidasControlador implements ActionListener, WindowListener {
                             "Bebida duplicada", JOptionPane.ERROR_MESSAGE);
                     break;
                 }
-            // Cogemos datos para convertirlos
+                // Cogemos datos para convertirlos
                 String nombre = vista.txtNombre.getText();
                 String marca = vista.txtMarca.getText();
                 double precio = Double.parseDouble(vista.txtPrecio.getText());
@@ -143,11 +147,10 @@ public class BebidasControlador implements ActionListener, WindowListener {
     @Override public void windowOpened(WindowEvent e) {}
     @Override public void windowClosing(WindowEvent e) {}
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////
     @Override public void windowClosed(WindowEvent e) {}
-    @Override public void windowIconified(WindowEvent e) {}
-    @Override public void windowDeiconified(WindowEvent e) {}
+    @Override public void windowIconified(WindowEvent e) {} // Minimiza V.
+    @Override public void windowDeiconified(WindowEvent e) {} // Restaura V.
     @Override public void windowActivated(WindowEvent e) {}
     @Override public void windowDeactivated(WindowEvent e) {}
 }

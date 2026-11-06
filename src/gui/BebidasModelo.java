@@ -22,6 +22,7 @@ import java.util.HashSet;
 
 
 public class BebidasModelo {
+    // Gestiona los datos.
     // Guardamos las bebidas
     public HashSet<Bebida> listaBebidas;
 

@@ -28,12 +28,14 @@ public class Estilo {
         // Paneles/contenedores de scroll transparentes
         if (contenedor instanceof JPanel || contenedor instanceof JScrollPane || contenedor instanceof JViewport) {
             ((JComponent) contenedor).setOpaque(false);
+
             if (contenedor instanceof JScrollPane) {
                 ((JScrollPane) contenedor).setBorder(BorderFactory.createEmptyBorder()); // Quita el borde blanco del scroll
             }
         }
 
         for (Component c : contenedor.getComponents()) {
+            // Feunte general
             c.setFont(FUENTE_RUSTICA);
             if (c instanceof JTextField) {
                 c.setBackground(MADERA_CAJAS);
@@ -42,6 +44,7 @@ public class Estilo {
                 ((JTextField) c).setCaretColor(TEXTO_DORADO);
                 ((JComponent) c).setOpaque(true);
             }
+            // Comprueba area de Text
             else if (c instanceof JTextArea) {
                 c.setBackground(FONDO_PERGAMINO);
                 c.setForeground(TEXTO_PERGAMINO);
@@ -49,6 +52,7 @@ public class Estilo {
                 ((JComponent) c).setBorder(BorderFactory.createLoweredBevelBorder());
                 ((JComponent) c).setOpaque(true);
             }
+
             else if (c instanceof JButton) {
                 c.setBackground(MADERA_CAJAS);
                 c.setForeground(TEXTO_DORADO);
@@ -64,8 +68,7 @@ public class Estilo {
                     ((JComponent) c).setOpaque(false);
                 }
             }
-
-            // CORRECCIÓN CLAVE: Entrar también en JScrollPane y JViewport para alcanzar el JTextArea
+            // identifica si un componente es un panel o un contenedor de desplazamiento
             if (c instanceof JPanel || c instanceof JScrollPane || c instanceof JViewport) {
                 temaBarril((Container) c);
             }

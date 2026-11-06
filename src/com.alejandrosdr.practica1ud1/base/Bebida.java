@@ -1,7 +1,7 @@
 package com.alejandrosdr.practica1ud1.base;
 
 import java.time.LocalDate;
-import java.util.Objects; // Necesario para el hashCode
+import java.util.Objects;
 
 // El abstract hace que no pueda haber un = new Bebida
 // En cambio si un nuevo new R, new W, new V
@@ -73,7 +73,7 @@ public abstract class Bebida {
         this.fechaEntradaInv = fechaEntradaInv;
     }
 
-    // --- MÉTODOS AÑADIDOS PARA LA VISTA Y EL HASHSET ---
+    // METODOs PARA LA VISTA Y HASHSET
 
     @Override
     public String toString() {
